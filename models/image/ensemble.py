@@ -1,7 +1,14 @@
 from PIL import Image
 import io
 import torch
-from facenet_pytorch import MTCNN
+try:
+    from facenet_pytorch import MTCNN
+    FACENET_AVAILABLE = True
+except ImportError:
+    print("[ensemble] WARNING: facenet-pytorch dependency not found. Face cropping disabled.")
+    FACENET_AVAILABLE = False
+    MTCNN = None
+
 from models.image.vit_detector import get_fake_prob as vit_fake_prob, load_vit
 from models.image.siglip_detector import get_fake_prob as siglip_fake_prob, load_siglip
 
@@ -18,8 +25,13 @@ mtcnn = None
 
 def load_models():
     global mtcnn
-    print("[ensemble] Loading MTCNN Face Cropper...")
-    mtcnn = MTCNN(keep_all=False, device=DEVICE)
+    if FACENET_AVAILABLE and MTCNN is not None:
+        print("[ensemble] Loading MTCNN Face Cropper...")
+        try:
+            mtcnn = MTCNN(keep_all=False, device=DEVICE)
+        except Exception as e:
+            print(f"[ensemble] Failed to load MTCNN: {e}")
+            mtcnn = None
     load_vit()
     load_siglip()
 
