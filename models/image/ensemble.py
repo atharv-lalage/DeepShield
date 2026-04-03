@@ -3,8 +3,8 @@ import io
 from models.image.vit_detector import get_fake_prob as vit_fake_prob, load_vit
 from models.image.siglip_detector import get_fake_prob as siglip_fake_prob, load_siglip
 
-VIT_WEIGHT    = 0.4
-SIGLIP_WEIGHT = 0.6
+VIT_WEIGHT    = 0.25
+SIGLIP_WEIGHT = 0.75
 
 
 def load_models():
@@ -22,9 +22,9 @@ def classify_image(image_bytes: bytes) -> dict:
     final_real_score = 1.0 - final_fake_score
     confidence = max(final_fake_score, final_real_score)
 
-    if final_fake_score >= 0.70:
+    if final_fake_score >= 0.55:
         label = "fake"
-    elif final_fake_score <= 0.40:
+    elif final_fake_score <= 0.45:
         label = "real"
     else:
         label = "uncertain"
