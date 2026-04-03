@@ -8,7 +8,9 @@ DEVICE = (
     else "cpu"
 )
 
-VIT_MODEL_ID = "./models/weights/finetuned-vit"
+import os
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+VIT_MODEL_ID = "dima806/deepfake_vs_real_image_detection" # Fallback to HF hub model since local is empty
 vit_processor = None
 vit_model = None
 

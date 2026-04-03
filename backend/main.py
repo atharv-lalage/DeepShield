@@ -1,6 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables before anything else starts
+load_dotenv()
+
 import asyncio
 import sys
-import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI

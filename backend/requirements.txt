@@ -1,7 +1,7 @@
 # Server
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-python-multipart==0.0.9
+fastapi
+uvicorn[standard]
+python-multipart
 
 # ML & Models
 torch>=2.6.0
@@ -13,14 +13,14 @@ numpy
 opencv-python
 librosa
 soundfile
-facenet-pytorch==2.6.0
+# Installed separately: facenet-pytorch==2.6.0
 
 # Groq AI
-groq==0.8.0
+groq
 
 # Utilities
-python-dotenv==1.0.1
-aiofiles==23.2.1
-httpx==0.27.0
-pydantic==2.7.1
-pydantic-settings==2.3.0
+python-dotenv
+aiofiles
+httpx
+pydantic
+pydantic-settings
