@@ -2,7 +2,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import {
   Upload, Image as ImageIcon, CheckCircle2, XCircle, AlertTriangle,
-  Eye, EyeOff, Layers, RefreshCw, Loader2, Info, File
+  Eye, EyeOff, Layers, RefreshCw, Loader2, Info, File, Sparkles, Brain
 } from 'lucide-react';
 import FileRow from './FileRow';
 import { isImage, createPreviewUrl, simulateAnalysis, getVerdictMeta } from '../utils/fileUtils';
@@ -132,6 +132,144 @@ function IssueList({ issues, activeRegion, setActiveRegion }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/* ── Groq AI Explanation Panel ── */
+function GroqExplanation({ explanation, verdict, isLoading }) {
+  const verdictColor = VERDICT_COLOR[verdict] || '#6366f1';
+
+  // Typing animation effect for the explanation text
+  const [displayed, setDisplayed] = useState('');
+  const [isTyping, setIsTyping]   = useState(false);
+  const prevExplanation           = useRef('');
+
+  React.useEffect(() => {
+    if (!explanation || explanation === prevExplanation.current) return;
+    prevExplanation.current = explanation;
+
+    // Reset and start typing animation
+    setDisplayed('');
+    setIsTyping(true);
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(explanation.slice(0, i));
+      if (i >= explanation.length) {
+        clearInterval(interval);
+        setIsTyping(false);
+      }
+    }, 12); // ~12ms per char → smooth but fast
+
+    return () => clearInterval(interval);
+  }, [explanation]);
+
+  if (isLoading) {
+    return (
+      <div style={{
+        marginTop: '20px',
+        padding: '16px',
+        borderRadius: '10px',
+        background: 'rgba(99,102,241,0.06)',
+        border: '1px solid rgba(99,102,241,0.18)',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: '8px',
+            background: 'rgba(99,102,241,0.15)',
+            border: '1px solid rgba(99,102,241,0.3)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Brain size={14} color="var(--color-accent)" style={{ animation: 'spin 1.5s linear infinite' }} />
+          </div>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-subtle)' }}>
+            Groq AI · Generating Explanation
+          </span>
+        </div>
+        {/* Skeleton lines */}
+        {[100, 85, 60].map((w, i) => (
+          <div key={i} style={{
+            height: '10px', borderRadius: '4px', marginBottom: '8px',
+            width: `${w}%`,
+            background: 'linear-gradient(90deg, var(--color-border) 25%, var(--color-border-strong) 50%, var(--color-border) 75%)',
+            backgroundSize: '200% 100%',
+            animation: `shimmer 1.4s ${i * 0.15}s ease infinite`,
+          }} />
+        ))}
+        <style>{`
+          @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  if (!explanation) return null;
+
+  return (
+    <div style={{
+      marginTop: '20px',
+      padding: '16px',
+      borderRadius: '10px',
+      background: `${verdictColor}08`,
+      border: `1px solid ${verdictColor}22`,
+      transition: 'all 0.3s ease',
+    }}>
+      {/* Header row */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: '8px',
+            background: `${verdictColor}15`,
+            border: `1px solid ${verdictColor}30`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Sparkles size={13} color={verdictColor} />
+          </div>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-subtle)' }}>
+            Groq AI · LLaMA 3.3 70B
+          </span>
+        </div>
+        {/* Subtle "AI generated" pill */}
+        <span style={{
+          fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+          padding: '2px 8px', borderRadius: '99px',
+          background: `${verdictColor}12`, border: `1px solid ${verdictColor}25`,
+          color: verdictColor, opacity: 0.75,
+        }}>
+          AI Explanation
+        </span>
+      </div>
+
+      {/* Explanation text with typing cursor */}
+      <p style={{
+        fontSize: '0.855rem',
+        lineHeight: 1.75,
+        color: 'var(--color-text-muted)',
+        margin: 0,
+        fontStyle: 'normal',
+      }}>
+        {displayed}
+        {isTyping && (
+          <span style={{
+            display: 'inline-block', width: '2px', height: '14px',
+            background: verdictColor, marginLeft: '2px',
+            verticalAlign: 'text-bottom',
+            animation: 'blink 0.7s step-end infinite',
+          }} />
+        )}
+      </p>
+
+      <style>{`
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -300,6 +438,7 @@ export default function DetectPanel() {
                     </Badge>
                   </CardHeader>
                   <CardContent>
+                    {/* Verdict row */}
                     <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '24px' }}>
                       <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: `${verdictColor}15`, color: verdictColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {current.result.verdict === 'real' ? <CheckCircle2 size={32} /> : (current.result.verdict === 'fake' ? <XCircle size={32} /> : <AlertTriangle size={32} />)}
@@ -314,6 +453,8 @@ export default function DetectPanel() {
 
                     {showExplain && (
                       <div style={{ marginTop: '20px' }}>
+
+                        {/* ── Forensic Artifacts ── */}
                         <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-subtle)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                           <Info size={12} /> Detected Forensic Artifacts
                           {current.result.issues?.length > 0 && (
@@ -321,6 +462,13 @@ export default function DetectPanel() {
                           )}
                         </div>
                         <IssueList issues={current.result.issues} activeRegion={activeRegion} setActiveRegion={setActiveRegion} />
+
+                        {/* ── Groq AI Explanation ── */}
+                        <GroqExplanation
+                          explanation={current.result.explanation}
+                          verdict={current.result.verdict}
+                          isLoading={false}
+                        />
                       </div>
                     )}
                   </CardContent>
