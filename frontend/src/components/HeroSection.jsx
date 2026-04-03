@@ -136,56 +136,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Stats row — below copy */}
-        <div style={{
-          display: 'flex',
-          gap: '0',
-          marginTop: '80px',
-          borderTop: '1px solid var(--color-border)',
-          paddingTop: '40px',
-          animation: 'fadeInUp 0.55s 0.36s ease both',
-        }}>
-          {[
-            { value: '97.4%', label: 'Detection accuracy', sub: 'FaceForensics++ benchmark' },
-            { value: '<2s',   label: 'Analysis time',      sub: 'End-to-end per image' },
-            { value: '6',     label: 'Detection engines',  sub: 'Run in parallel per file' },
-            { value: '99.1%', label: 'Real-face precision', sub: 'Zero false-positive rate' },
-          ].map((stat, i) => (
-            <div key={stat.label} style={{
-              flex: 1,
-              paddingRight: '32px',
-              borderRight: i < 3 ? '1px solid var(--color-border)' : 'none',
-              paddingLeft: i > 0 ? '32px' : '0',
-            }}>
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-                fontWeight: 600,
-                letterSpacing: '-0.03em',
-                color: 'var(--color-text)',
-                lineHeight: 1,
-                marginBottom: '6px',
-              }}>
-                {stat.value}
-              </div>
-              <div style={{
-                fontSize: '0.8rem',
-                fontWeight: 500,
-                color: 'var(--color-text-muted)',
-                marginBottom: '2px',
-              }}>
-                {stat.label}
-              </div>
-              <div style={{
-                fontSize: '0.72rem',
-                color: 'var(--color-text-subtle)',
-                fontFamily: 'var(--font-mono)',
-              }}>
-                {stat.sub}
-              </div>
-            </div>
-          ))}
-        </div>
+
 
         {/* Scroll cue */}
         <div style={{

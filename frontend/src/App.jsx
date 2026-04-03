@@ -10,7 +10,6 @@ import HeroSection from './components/HeroSection';
 import DetectPanel from './components/DetectPanel';
 import HowItWorks  from './components/HowItWorks';
 import Modalities  from './components/Modalities';
-import StatsSection from './components/StatsSection';
 import Footer       from './components/Footer';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -31,7 +30,6 @@ export default function App() {
         <DetectPanel />
         <HowItWorks />
         <Modalities />
-        <StatsSection />
       </main>
 
       <Footer />

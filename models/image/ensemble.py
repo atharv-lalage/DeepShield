@@ -77,12 +77,15 @@ def classify_image(image_bytes: bytes) -> dict:
     siglip_fake = siglip_fake_prob(original_image)
 
     # --- SMART OVERRIDE LOGIC WITH BOOSTING ---
-    if vit_fake >= 0.65:
-        final_fake_score = min(0.98, vit_fake * 1.3)
-    elif siglip_fake >= 0.80:
+    # Tightened override boundaries for Images
+    # If ViT detects a FaceSwap -> Fake
+    if vit_fake >= 0.65: 
+        final_fake_score = vit_fake
+    # If SigLIP detects a fully generative AI composition (like Midjourney/Grok) -> Fake
+    elif siglip_fake >= 0.70: 
         final_fake_score = siglip_fake
     else:
-        final_fake_score = (VIT_WEIGHT * vit_fake) + (SIGLIP_WEIGHT * siglip_fake)
+        final_fake_score = (0.6 * vit_fake) + (0.4 * siglip_fake)
 
     final_real_score = 1.0 - final_fake_score
     confidence = max(final_fake_score, final_real_score)
