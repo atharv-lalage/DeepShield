@@ -36,3 +36,26 @@ frontend/dist/
 
 # VS Code
 .vscode/
+# Model weights — host on HuggingFace instead
+models/weights/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Datasets — never commit
+data/raw/
+data/prepared/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+
+# Logs and checkpoints
+runs/
+logs/
+checkpoint-*/

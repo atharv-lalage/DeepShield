@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 import os
 from groq import Groq
 from ai_service.prompts import build_prompt
