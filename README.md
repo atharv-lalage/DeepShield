@@ -232,10 +232,4 @@ Built during the **PVG Hackathon** by:
 
 ---
 
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
 *Built with ❤️ for the future of digital trust and media authenticity.*
