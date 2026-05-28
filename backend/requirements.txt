@@ -15,6 +15,12 @@ librosa
 soundfile
 # Installed separately: facenet-pytorch==2.6.0
 
+# Face Detection (RetinaFace — replaces MTCNN for better cross-ethnic detection)
+insightface
+onnxruntime
+# Use onnxruntime-gpu instead if you have CUDA:
+# onnxruntime-gpu
+
 # Groq AI
 groq
 
