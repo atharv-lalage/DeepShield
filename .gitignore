@@ -59,3 +59,4 @@ __pycache__/
 runs/
 logs/
 checkpoint-*/
+RESUME_PROJECT_GUIDE.md
