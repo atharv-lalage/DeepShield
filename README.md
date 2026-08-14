@@ -6,7 +6,7 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.6-red?logo=pytorch)](https://pytorch.org)
 [![React](https://img.shields.io/badge/React-Vite-purple?logo=react)](https://react.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi)](https://fastapi.tiangolo.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
 
 ---
 
