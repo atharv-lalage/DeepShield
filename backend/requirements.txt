@@ -1,0 +1,30 @@
+# Server
+fastapi
+uvicorn[standard]
+python-multipart
+
+# ML & Models
+torch>=2.6.0
+torchvision
+transformers
+huggingface-hub
+Pillow
+numpy
+opencv-python
+# Installed separately: facenet-pytorch==2.6.0
+
+# Face Detection (RetinaFace — replaces MTCNN for better cross-ethnic detection)
+insightface
+onnxruntime
+# Use onnxruntime-gpu instead if you have CUDA:
+# onnxruntime-gpu
+
+# Groq AI
+groq
+
+# Utilities
+python-dotenv
+aiofiles
+httpx
+pydantic
+pydantic-settings

@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Environment
+.env
+*.env
+
+# Model weights (too large for GitHub)
+models/weights/finetuned-vit/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Vite
+frontend/dist/
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+# Model weights — host on HuggingFace instead
+models/weights/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Datasets — never commit
+data/raw/
+data/prepared/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+
+# Logs and checkpoints
+runs/
+logs/
+checkpoint-*/
+RESUME_PROJECT_GUIDE.md
